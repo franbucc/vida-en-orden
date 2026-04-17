@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "functions": {
+    "api/download-pdf.ts": {
+      "includeFiles": "files/vida-en-orden.pdf"
+    },
+    "api/send-pdf.ts": {
+      "includeFiles": "files/vida-en-orden.pdf"
+    }
+  }
+}

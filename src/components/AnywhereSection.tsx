@@ -41,7 +41,7 @@ function AnywhereSection() {
           </div>
 
           <a
-            href="#"
+            href="https://mpago.la/2YhtS1x"
             className="mt-12 inline-flex h-[74px] items-center justify-center gap-4 rounded-[18px] bg-[#18c37e] px-10 text-[1.25rem] font-semibold uppercase tracking-[-0.02em] text-white shadow-[0_18px_35px_rgba(24,195,126,0.18)] transition hover:scale-[1.01]"
           >
             COMPRAR AHORA

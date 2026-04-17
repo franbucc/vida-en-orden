@@ -103,7 +103,7 @@ function OfferSection() {
 
           <div className="mt-9 flex justify-center">
             <a
-              href="#"
+              href="https://mpago.la/2YhtS1x"
               className="inline-flex min-w-[290px] flex-col items-center justify-center rounded-[16px] bg-gradient-to-r from-[#18b97a] to-[#21d19a] px-8 py-5 text-center text-white shadow-[0_14px_30px_rgba(24,191,116,0.18)] transition hover:scale-[1.015]"
             >
               <span className="text-[1.15rem] font-extrabold uppercase tracking-[-0.02em] md:text-[1.3rem]">
