@@ -1,4 +1,6 @@
 import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Benefits from "./components/Benefits";
@@ -11,8 +13,9 @@ import OfferSection from "./components/OfferSection";
 import FaqSection from "./components/FaqSection";
 import Footer from "./components/Footer";
 import WhatsAppFloat from "./components/WhatsAppFloat";
+import Gracias from "./pages/Gracias";
 
-function App() {
+function Home() {
   return (
     <>
       <Navbar />
@@ -28,6 +31,17 @@ function App() {
       <Footer />
       <WhatsAppFloat />
     </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/gracias" element={<Gracias />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

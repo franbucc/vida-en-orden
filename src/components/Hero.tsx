@@ -33,14 +33,16 @@ function Hero() {
         </div>
 
         <div className="mt-8 flex w-full justify-center md:mt-10">
-          <a
-            href="#"
-            className="inline-flex w-full max-w-[720px] items-center justify-center gap-4 rounded-[24px] bg-gradient-to-r from-[#15c978] to-[#1fd6a3] px-8 py-6 text-center text-[1.2rem] font-bold text-white shadow-[0_18px_45px_rgba(31,214,163,0.22)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(31,214,163,0.28)] md:px-12 md:py-7 md:text-[2.2rem]"
-          >
-            <span>QUIERO LA PLANTILLA</span>
-            <span className="text-[2rem] leading-none md:text-[2.6rem]">↓</span>
-          </a>
-        </div>
+  <a
+    href="https://mpago.la/2YhtS1x"
+    target="_self"
+    rel="noopener noreferrer"
+    className="inline-flex w-full max-w-[720px] items-center justify-center gap-4 rounded-[24px] bg-gradient-to-r from-[#15c978] to-[#1fd6a3] px-8 py-6 text-center text-[1.2rem] font-bold text-white shadow-[0_18px_45px_rgba(31,214,163,0.22)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(31,214,163,0.28)] md:px-12 md:py-7 md:text-[2.2rem]"
+  >
+    <span>QUIERO LA PLANTILLA</span>
+    <span className="text-[2rem] leading-none md:text-[2.6rem]">↓</span>
+  </a>
+</div>
       </div>
     </section>
   );

@@ -32,10 +32,10 @@ function Footer() {
           </div>
 
           <a
-            href="mailto:info@vidaenorden.com"
+            href="mailto:vidaenordenok@gmail.com"
             className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-[1rem] font-medium text-[#d7deea] transition hover:bg-white/10 hover:text-white"
           >
-            ✉ info@vidaenorden.com
+            ✉ vidaenordenok@gmail.com
           </a>
         </div>
 
