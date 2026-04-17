@@ -10,5 +10,15 @@
     "api/send-pdf.ts": {
       "includeFiles": "files/vida-en-orden.pdf"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/gracias",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ]
 }
