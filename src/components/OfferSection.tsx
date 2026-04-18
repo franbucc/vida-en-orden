@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { startCheckout } from "../lib/checkout";
 
 const includes = [
   "Plantilla completa de finanzas personales",
@@ -13,7 +14,9 @@ const includes = [
 
 function OfferSection() {
   const INITIAL_TIME = 15 * 60;
+
   const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const savedEndTime = localStorage.getItem("offerEndTime");
@@ -37,6 +40,17 @@ function OfferSection() {
 
     return () => clearInterval(interval);
   }, []);
+
+  const handleCheckout = async () => {
+    try {
+      setLoading(true);
+      await startCheckout("vida-en-orden", "offer_section");
+    } catch (error) {
+      console.error(error);
+      alert("Hubo un problema al iniciar la compra.");
+      setLoading(false);
+    }
+  };
 
   const days = Math.floor(timeLeft / (60 * 60 * 24));
   const hours = Math.floor((timeLeft % (60 * 60 * 24)) / (60 * 60));
@@ -102,17 +116,21 @@ function OfferSection() {
           </div>
 
           <div className="mt-9 flex justify-center">
-            <a
-              href="https://mpago.la/2YhtS1x"
-              className="inline-flex min-w-[290px] flex-col items-center justify-center rounded-[16px] bg-gradient-to-r from-[#18b97a] to-[#21d19a] px-8 py-5 text-center text-white shadow-[0_14px_30px_rgba(24,191,116,0.18)] transition hover:scale-[1.015]"
+            <button
+              onClick={handleCheckout}
+              disabled={loading}
+              className="inline-flex min-w-[290px] flex-col items-center justify-center rounded-[16px] bg-gradient-to-r from-[#18b97a] to-[#21d19a] px-8 py-5 text-center text-white shadow-[0_14px_30px_rgba(24,191,116,0.18)] transition hover:scale-[1.015] disabled:cursor-not-allowed disabled:opacity-70"
             >
               <span className="text-[1.15rem] font-extrabold uppercase tracking-[-0.02em] md:text-[1.3rem]">
-                ✨ OBTENER ESTA OFERTA →
+                {loading
+                  ? "REDIRIGIENDO..."
+                  : "✨ OBTENER ESTA OFERTA →"}
               </span>
+
               <small className="mt-1 text-[0.95rem] font-medium md:text-[1rem]">
                 click aquí
               </small>
-            </a>
+            </button>
           </div>
 
           <div className="mt-10">
@@ -143,6 +161,7 @@ function OfferSection() {
                   <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#18bf74] text-sm font-bold text-white">
                     ✓
                   </span>
+
                   <p className="text-[1rem] font-semibold uppercase text-[#0f1728] md:text-[1.05rem]">
                     {item}
                   </p>
@@ -152,11 +171,11 @@ function OfferSection() {
           </div>
 
           <div className="mt-10 rounded-[22px] bg-[#f1f1f1] px-5 py-7 text-center md:px-8 md:py-8">
-            <p className="mb-6 text-[1.35rem] font-bold tracking-[-0.03em] text-[#0f1728] md:text-[1.45rem]">
-              ⏰ Oferta por tiempo limitado
+            <p className="mb-6 text-[1.35rem] font-bold tracking-[-0.03em] text-[#0f1728] md:text-[1.6rem]">
+              Esta oferta desaparece en:
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-3">
               {[
                 { value: formatTime(days), label: "DÍAS" },
                 { value: formatTime(hours), label: "HORAS" },
@@ -168,6 +187,7 @@ function OfferSection() {
                     <span className="text-[2.1rem] font-extrabold leading-none">
                       {item.value}
                     </span>
+
                     <span className="mt-2 text-[0.82rem] font-medium uppercase tracking-[0.04em] text-[#d2d8e2]">
                       {item.label}
                     </span>

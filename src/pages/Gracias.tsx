@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 function Gracias() {
   const [email, setEmail] = useState("");
@@ -8,6 +8,8 @@ function Gracias() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
+
+  const purchaseTracked = useRef(false);
 
   const paymentId = useMemo(() => {
     const params = new URLSearchParams(window.location.search);
@@ -27,6 +29,7 @@ function Gracias() {
         const response = await fetch(
           `/api/verify-payment?payment_id=${encodeURIComponent(paymentId)}`
         );
+
         const data = await response.json();
 
         if (!response.ok) {
@@ -37,6 +40,21 @@ function Gracias() {
 
         if (data.approved) {
           setPaymentApproved(true);
+
+          if (
+            typeof window !== "undefined" &&
+            (window as any).fbq &&
+            !purchaseTracked.current
+          ) {
+            (window as any).fbq("track", "Purchase", {
+              value: data.value || 18900,
+              currency: data.currency || "ARS",
+              content_ids: [data.product_id || "vida-en-orden"],
+              content_type: "product",
+            });
+
+            purchaseTracked.current = true;
+          }
         }
       } catch (err: any) {
         setError(err?.message || "No pudimos validar tu pago.");
@@ -105,7 +123,7 @@ function Gracias() {
           </div>
 
           <p className="mb-3 text-[1rem] font-semibold uppercase tracking-[0.04em] text-[#18bf74]">
-            COMPRA
+            COMPRA EXITOSA
           </p>
 
           <h1 className="mb-4 text-[2.4rem] font-extrabold leading-[0.95] tracking-[-0.05em] text-[#0f1728] sm:text-[3rem] md:text-[4rem]">
@@ -113,13 +131,15 @@ function Gracias() {
           </h1>
 
           <p className="mx-auto max-w-[680px] text-[1.05rem] leading-[1.7] text-[#667085] md:text-[1.15rem]">
-            Estamos verificando tu pago para habilitar el acceso a tu plantilla
+            Estamos verificando tu pago para habilitar el acceso a tu producto
             digital.
           </p>
         </div>
 
         {checkingPayment && (
-          <p className="mt-10 text-center text-[#667085]">Verificando pago...</p>
+          <p className="mt-10 text-center text-[#667085]">
+            Verificando pago...
+          </p>
         )}
 
         {!checkingPayment && paymentApproved && (
@@ -183,6 +203,15 @@ function Gracias() {
             {error}
           </p>
         )}
+
+        <div className="mt-10 text-center">
+          <a
+            href="/"
+            className="text-[0.95rem] font-semibold text-[#0f1728] underline underline-offset-4"
+          >
+            Volver al inicio
+          </a>
+        </div>
       </div>
     </section>
   );

@@ -14,6 +14,8 @@ import FaqSection from "./components/FaqSection";
 import Footer from "./components/Footer";
 import WhatsAppFloat from "./components/WhatsAppFloat";
 import Gracias from "./pages/Gracias";
+import MetaPageView from "./components/MetaPageView";
+
 
 function Home() {
   return (
@@ -37,6 +39,7 @@ function Home() {
 function App() {
   return (
     <BrowserRouter>
+    <MetaPageView />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/gracias" element={<Gracias />} />

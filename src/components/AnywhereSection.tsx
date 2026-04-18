@@ -1,10 +1,24 @@
+import { useState } from "react";
 import mobilePreview from "../assets/iphone.webp";
+import { startCheckout } from "../lib/checkout";
 
 function AnywhereSection() {
+  const [loading, setLoading] = useState(false);
+
+  const handleCheckout = async () => {
+    try {
+      setLoading(true);
+      await startCheckout("vida-en-orden", "anywhere");
+    } catch (error) {
+      console.error(error);
+      alert("Hubo un problema al iniciar la compra.");
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="w-full bg-[#ededed] px-5 py-0 font-['Montserrat',sans-serif] sm:px-6 md:px-8 lg:px-12">
       <div className="mx-auto max-w-[1450px] lg:grid lg:grid-cols-2 lg:items-center lg:gap-20">
-        {/* IMAGE */}
         <div className="flex justify-center pt-10 sm:pt-14 lg:pt-0">
           <img
             src={mobilePreview}
@@ -13,7 +27,6 @@ function AnywhereSection() {
           />
         </div>
 
-        {/* CONTENT */}
         <div className="mx-auto w-full max-w-[640px] pb-16 pt-6 lg:pb-0 lg:pt-0">
           <p className="mb-4 text-[1rem] font-semibold uppercase tracking-[-0.02em] text-[#18c37e] sm:text-[1.15rem]">
             UTILÍZALO EN
@@ -40,13 +53,14 @@ function AnywhereSection() {
             </p>
           </div>
 
-          <a
-            href="https://mpago.la/2YhtS1x"
-            className="mt-12 inline-flex h-[74px] items-center justify-center gap-4 rounded-[18px] bg-[#18c37e] px-10 text-[1.25rem] font-semibold uppercase tracking-[-0.02em] text-white shadow-[0_18px_35px_rgba(24,195,126,0.18)] transition hover:scale-[1.01]"
+          <button
+            onClick={handleCheckout}
+            disabled={loading}
+            className="mt-12 inline-flex h-[74px] items-center justify-center gap-4 rounded-[18px] bg-[#18c37e] px-10 text-[1.25rem] font-semibold uppercase tracking-[-0.02em] text-white shadow-[0_18px_35px_rgba(24,195,126,0.18)] transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-70"
           >
-            COMPRAR AHORA
+            {loading ? "REDIRIGIENDO..." : "COMPRAR AHORA"}
             <span className="text-[1.6rem] leading-none">→</span>
-          </a>
+          </button>
         </div>
       </div>
     </section>

@@ -1,6 +1,21 @@
+import { useState } from "react";
 import heroImage from "/assets/hero-finanzas.webp";
+import { startCheckout } from "../lib/checkout";
 
 function Hero() {
+  const [loading, setLoading] = useState(false);
+
+  const handleCheckout = async () => {
+    try {
+      setLoading(true);
+      await startCheckout("vida-en-orden", "hero");
+    } catch (error) {
+      console.error(error);
+      alert("Hubo un problema al iniciar la compra.");
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="relative w-full overflow-hidden bg-gradient-to-br from-[#dfe8b7] to-[#95e0cf] px-4 pb-30 pt-44 font-['Montserrat',sans-serif] md:px-6 md:pt-32 lg:px-8">
       <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center">
@@ -33,16 +48,15 @@ function Hero() {
         </div>
 
         <div className="mt-8 flex w-full justify-center md:mt-10">
-  <a
-    href="https://mpago.la/2YhtS1x"
-    target="_self"
-    rel="noopener noreferrer"
-    className="inline-flex w-full max-w-[720px] items-center justify-center gap-4 rounded-[24px] bg-gradient-to-r from-[#15c978] to-[#1fd6a3] px-8 py-6 text-center text-[1.2rem] font-bold text-white shadow-[0_18px_45px_rgba(31,214,163,0.22)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(31,214,163,0.28)] md:px-12 md:py-7 md:text-[2.2rem]"
-  >
-    <span>QUIERO LA PLANTILLA</span>
-    <span className="text-[2rem] leading-none md:text-[2.6rem]">↓</span>
-  </a>
-</div>
+          <button
+            onClick={handleCheckout}
+            disabled={loading}
+            className="inline-flex w-full max-w-[720px] items-center justify-center gap-4 rounded-[24px] bg-gradient-to-r from-[#15c978] to-[#1fd6a3] px-8 py-6 text-center text-[1.2rem] font-bold text-white shadow-[0_18px_45px_rgba(31,214,163,0.22)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(31,214,163,0.28)] disabled:cursor-not-allowed disabled:opacity-70 md:px-12 md:py-7 md:text-[2.2rem]"
+          >
+            <span>{loading ? "REDIRIGIENDO..." : "QUIERO LA PLANTILLA"}</span>
+            <span className="text-[2rem] leading-none md:text-[2.6rem]">↓</span>
+          </button>
+        </div>
       </div>
     </section>
   );

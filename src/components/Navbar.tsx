@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { startCheckout } from "../lib/checkout";
 
 function Navbar() {
   const [loading, setLoading] = useState(false);
@@ -6,31 +7,10 @@ function Navbar() {
   const handleCheckout = async () => {
     try {
       setLoading(true);
-
-      const response = await fetch("/api/create-preference", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data?.error || "No se pudo iniciar el checkout");
-      }
-
-      const checkoutUrl = data.init_point || data.sandbox_init_point;
-
-      if (!checkoutUrl) {
-        throw new Error("Mercado Pago no devolvió una URL de checkout");
-      }
-
-      window.location.href = checkoutUrl;
+      await startCheckout("vida-en-orden", "navbar");
     } catch (error) {
       console.error(error);
       alert("Hubo un problema al iniciar la compra.");
-    } finally {
       setLoading(false);
     }
   };
@@ -51,7 +31,7 @@ function Navbar() {
         <button
           onClick={handleCheckout}
           disabled={loading}
-          className="inline-flex items-center justify-center rounded-[22px] bg-gradient-to-r from-[#17c97e] to-[#20d5a0] px-10 py-5 text-[1.3rem] font-bold tracking-[-0.02em] text-white shadow-[0_18px_35px_rgba(32,213,160,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_24px_45px_rgba(32,213,160,0.24)] disabled:cursor-not-allowed disabled:opacity-70 md:min-w-[250px] md:text-[1.15rem]"
+          className="inline-flex items-center justify-center rounded-[22px] bg-gradient-to-r from-[#17c97e] to-[#20d5a0] px-10 py-5 text-[1rem] font-bold tracking-[-0.02em] text-white shadow-[0_18px_35px_rgba(32,213,160,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_24px_45px_rgba(32,213,160,0.24)] disabled:cursor-not-allowed disabled:opacity-70 md:min-w-[250px] md:text-[1.5rem]"
         >
           {loading ? "Redirigiendo..." : "Obtener Ahora"}
         </button>
