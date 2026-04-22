@@ -33,11 +33,22 @@ export default async function handler(req: any, res: any) {
       });
     }
 
+    const externalReference = payment.external_reference || "";
+    const [productId = "", source = ""] = externalReference.split("|");
+
     return res.status(200).json({
       approved: payment.status === "approved",
       status: payment.status,
       status_detail: payment.status_detail,
       payment_id: payment.id,
+      value: payment.transaction_amount || 0,
+      currency: payment.currency_id || "ARS",
+      product_id: productId || "vida-en-orden",
+      product_title:
+        payment.additional_info?.items?.[0]?.title ||
+        "Vida en Orden - Plantilla Digital",
+      source,
+      external_reference: externalReference,
     });
   } catch (error: any) {
     return res.status(500).json({

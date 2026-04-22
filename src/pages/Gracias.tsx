@@ -41,6 +41,23 @@ function Gracias() {
         if (data.approved) {
           setPaymentApproved(true);
 
+          await fetch("/api/record-sale", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              payment_id: data.payment_id,
+              product_id: data.product_id,
+              product_title: data.product_title,
+              amount: data.value,
+              currency: data.currency,
+              status: data.status,
+              source: data.source,
+              external_reference: data.external_reference,
+            }),
+          });
+
           if (
             typeof window !== "undefined" &&
             (window as any).fbq &&

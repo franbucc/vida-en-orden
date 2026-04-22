@@ -16,6 +16,8 @@ import WhatsAppFloat from "./components/WhatsAppFloat";
 import Gracias from "./pages/Gracias";
 import MetaPageView from "./components/MetaPageView";
 import RecentPurchasesToast from "./components/RecentPurchasesToast";
+import Admin from "./pages/Admin";
+import RouteTracker from "./components/RouteTracker";
 
 
 function Home() {
@@ -42,9 +44,11 @@ function App() {
   return (
     <BrowserRouter>
     <MetaPageView />
+    <RouteTracker />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/gracias" element={<Gracias />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   );
