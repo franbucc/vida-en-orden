@@ -6,6 +6,7 @@ type CheckoutSource =
   | "benefits"
   | "offer_section"
   | "anywhere"
+  | "popup_offer"
   | "ebook_detail";
 
 declare global {

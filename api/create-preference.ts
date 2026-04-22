@@ -13,7 +13,7 @@ const PRODUCTS = {
     id: "ebook-calma",
     title: "Ebook Calma Interior",
     description: "Guía práctica para bajar el estrés y ordenar tu mente",
-    price: 12900,
+    price: 14900,
     currency: "ARS",
   },
 
@@ -22,14 +22,6 @@ const PRODUCTS = {
     title: "Ebook Amor Propio",
     description: "Un recorrido para fortalecer tu autoestima y bienestar",
     price: 14900,
-    currency: "ARS",
-  },
-
-  "ebook-habitos": {
-    id: "ebook-habitos",
-    title: "Ebook Hábitos que Transforman",
-    description: "Aprendé a crear rutinas sostenibles sin exigirte de más",
-    price: 11900,
     currency: "ARS",
   },
 } as const;

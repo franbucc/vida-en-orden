@@ -19,7 +19,9 @@ import RecentPurchasesToast from "./components/RecentPurchasesToast";
 import Admin from "./pages/Admin";
 import RouteTracker from "./components/RouteTracker";
 import EbooksHome from "./pages/EbooksHome";
-import EbookDetail from "./pages/EbookDetail";
+import EbookCalma from "./pages/EbookCalma";
+import EbookAmor from "./pages/EbookAmor";
+
 
 
 function Home() {
@@ -52,7 +54,8 @@ function App() {
         <Route path="/gracias" element={<Gracias />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/ebooks" element={<EbooksHome />} />
-<Route path="/ebooks/:slug" element={<EbookDetail />} />
+<Route path="/ebooks/ebook-calma" element={<EbookCalma />} />
+<Route path="/ebooks/ebook-amor-propio" element={<EbookAmor />} />
       </Routes>
     </BrowserRouter>
   );

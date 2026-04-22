@@ -21,7 +21,7 @@ export const PRODUCTS: Record<string, DigitalProduct> = {
     id: "ebook-calma",
     title: "Ebook Calma Interior",
     description: "Guía práctica para bajar el estrés y ordenar tu mente",
-    price: 12900,
+    price: 14900,
     currency: "ARS",
     fileName: "ebook-calma.pdf",
   },
@@ -33,14 +33,5 @@ export const PRODUCTS: Record<string, DigitalProduct> = {
     price: 14900,
     currency: "ARS",
     fileName: "ebook-amor-propio.pdf",
-  },
-
-  "ebook-habitos": {
-    id: "ebook-habitos",
-    title: "Ebook Hábitos que Transforman",
-    description: "Aprendé a crear rutinas sostenibles sin exigirte de más",
-    price: 11900,
-    currency: "ARS",
-    fileName: "ebook-habitos.pdf",
   },
 };
