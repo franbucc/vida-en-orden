@@ -15,11 +15,13 @@ import Footer from "./components/Footer";
 import WhatsAppFloat from "./components/WhatsAppFloat";
 import Gracias from "./pages/Gracias";
 import MetaPageView from "./components/MetaPageView";
+import RecentPurchasesToast from "./components/RecentPurchasesToast";
 
 
 function Home() {
   return (
     <>
+      <RecentPurchasesToast />
       <Navbar />
       <Hero />
       <Benefits />
