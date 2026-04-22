@@ -1,4 +1,4 @@
-import { supabase } from "./lib/supabase";
+import { getSupabase } from "./lib/supabase";
 
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
@@ -8,6 +8,8 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
+    const supabase = getSupabase();
+
     const {
       payment_id,
       product_id,
