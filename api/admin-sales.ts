@@ -8,24 +8,26 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    const { data, error } = await supabase
+    const result = await supabase
       .from("sales")
       .select("*")
       .order("created_at", { ascending: false })
       .limit(50);
 
-    if (error) {
+    if (result.error) {
       return res.status(500).json({
-        error: error.message,
+        error: "Error leyendo sales",
+        detail: result.error.message,
       });
     }
 
     return res.status(200).json({
-      sales: data || [],
+      sales: result.data || [],
     });
   } catch (error: any) {
     return res.status(500).json({
-      error: error?.message || "No se pudieron obtener las ventas",
+      error: "Fallo interno en admin-sales",
+      detail: error?.message || "Error desconocido",
     });
   }
 }

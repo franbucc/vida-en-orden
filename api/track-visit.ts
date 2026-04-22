@@ -9,19 +9,19 @@ export default async function handler(req: any, res: any) {
 
   try {
     const { path, referrer, sessionId } = req.body || {};
-
     const userAgent = req.headers["user-agent"] || null;
 
-    const { error } = await supabase.from("visits").insert({
+    const result = await supabase.from("visits").insert({
       path: path || "/",
       referrer: referrer || null,
       user_agent: userAgent,
       session_id: sessionId || null,
     });
 
-    if (error) {
+    if (result.error) {
       return res.status(500).json({
-        error: error.message,
+        error: "Error insertando visita",
+        detail: result.error.message,
       });
     }
 
@@ -30,7 +30,8 @@ export default async function handler(req: any, res: any) {
     });
   } catch (error: any) {
     return res.status(500).json({
-      error: error?.message || "No se pudo registrar la visita",
+      error: "Fallo interno en track-visit",
+      detail: error?.message || "Error desconocido",
     });
   }
 }

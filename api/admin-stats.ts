@@ -8,29 +8,32 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    const { count: visitsCount, error: visitsError } = await supabase
+    const visitsResult = await supabase
       .from("visits")
       .select("*", { count: "exact", head: true });
 
-    const { data: salesRows, error: salesError } = await supabase
+    if (visitsResult.error) {
+      return res.status(500).json({
+        error: "Error leyendo visits",
+        detail: visitsResult.error.message,
+      });
+    }
+
+    const salesResult = await supabase
       .from("sales")
       .select("*")
       .eq("status", "approved")
       .order("created_at", { ascending: false });
 
-    if (visitsError) {
+    if (salesResult.error) {
       return res.status(500).json({
-        error: visitsError.message,
+        error: "Error leyendo sales",
+        detail: salesResult.error.message,
       });
     }
 
-    if (salesError) {
-      return res.status(500).json({
-        error: salesError.message,
-      });
-    }
-
-    const sales = salesRows ?? [];
+    const visitsCount = visitsResult.count || 0;
+    const sales = salesResult.data ?? [];
     const approvedSales = sales.length;
 
     const revenue = sales.reduce((acc, sale) => {
@@ -38,19 +41,20 @@ export default async function handler(req: any, res: any) {
     }, 0);
 
     const conversionRate =
-      visitsCount && visitsCount > 0
+      visitsCount > 0
         ? Number(((approvedSales / visitsCount) * 100).toFixed(2))
         : 0;
 
     return res.status(200).json({
-      visits: visitsCount || 0,
+      visits: visitsCount,
       sales: approvedSales,
       revenue,
       conversionRate,
     });
   } catch (error: any) {
     return res.status(500).json({
-      error: error?.message || "No se pudieron obtener estadísticas",
+      error: "Fallo interno en admin-stats",
+      detail: error?.message || "Error desconocido",
     });
   }
 }
