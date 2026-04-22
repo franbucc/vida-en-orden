@@ -8,17 +8,14 @@ export default function Gracias() {
   const [loading, setLoading] = useState(true);
   const [paymentData, setPaymentData] = useState<any>(null);
 
-  const [email, setEmail] = useState("");
-  const [sending, setSending] = useState(false);
-  const [sent, setSent] = useState(false);
-  const [message, setMessage] = useState("");
-
   useEffect(() => {
     async function load() {
       if (!paymentId) return;
 
       try {
-        const res = await fetch(`/api/verify-payment?payment_id=${paymentId}`);
+        const res = await fetch(
+          `/api/verify-payment?payment_id=${paymentId}`
+        );
         const data = await res.json();
         setPaymentData(data);
       } catch (error) {
@@ -30,44 +27,6 @@ export default function Gracias() {
 
     load();
   }, [paymentId]);
-
-  const sendFiles = async () => {
-    if (!email) {
-      setMessage("Ingresá tu email.");
-      return;
-    }
-
-    try {
-      setSending(true);
-      setMessage("");
-
-      const res = await fetch("/api/send-files", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          payment_id: paymentId,
-          email,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setMessage(data.error || "No se pudo enviar.");
-        return;
-      }
-
-      setSent(true);
-      setMessage("¡Te enviamos los archivos a tu email!");
-    } catch (error) {
-      console.error(error);
-      setMessage("Ocurrió un error.");
-    } finally {
-      setSending(false);
-    }
-  };
 
   if (loading) {
     return <div className="p-10 text-center">Verificando pago...</div>;
@@ -96,7 +55,6 @@ export default function Gracias() {
           Tu pago fue aprobado correctamente.
         </p>
 
-        {/* DESCARGA DIRECTA */}
         <div className="mt-10 flex flex-col items-center gap-4">
           {paymentData.product_id === "vida-en-orden" && (
             <a
@@ -126,37 +84,21 @@ export default function Gracias() {
           )}
         </div>
 
-        {/* EMAIL */}
-        <div className="mt-12 border-t pt-10">
-          <h2 className="text-2xl font-bold text-[#0f1728]">
-            Recibilo también por email
-          </h2>
-
-          <p className="mt-3 text-[#667085]">
-            Dejanos tu correo y te enviamos los archivos automáticamente.
+        {/* WHATSAPP SOPORTE */}
+        <div className="mt-12 border-t border-gray-200 pt-8">
+          <p className="text-[1rem] text-[#667085]">
+            Ante cualquier imprevisto o inconveniente con tu compra,
+            comunicate con nosotros por WhatsApp.
           </p>
 
-          <div className="mx-auto mt-6 flex max-w-[520px] flex-col gap-3 sm:flex-row">
-            <input
-              type="email"
-              placeholder="tuemail@gmail.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="h-[58px] flex-1 rounded-[16px] border border-gray-200 px-4 outline-none focus:border-black"
-            />
-
-            <button
-              onClick={sendFiles}
-              disabled={sending || sent}
-              className="h-[58px] rounded-[16px] bg-[#18bf74] px-6 font-bold text-white disabled:opacity-60"
-            >
-              {sending ? "Enviando..." : sent ? "Enviado ✔" : "Enviar"}
-            </button>
-          </div>
-
-          {message && (
-            <p className="mt-4 text-sm text-[#0f1728]">{message}</p>
-          )}
+          <a
+            href="https://wa.me/541158781815?text=Hola,%20tuve%20un%20inconveniente%20con%20mi%20compra."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex rounded-[18px] bg-[#25D366] px-8 py-5 font-bold text-white transition hover:opacity-90"
+          >
+            Hablar por WhatsApp
+          </a>
         </div>
       </div>
     </section>
