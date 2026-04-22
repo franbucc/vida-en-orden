@@ -1,13 +1,13 @@
-import { supabase } from "./lib/supabase";
+import { getSupabase } from "./lib/supabase";
 
 export default async function handler(req: any, res: any) {
   if (req.method !== "GET") {
-    return res.status(405).json({
-      error: "Método no permitido",
-    });
+    return res.status(405).json({ error: "Método no permitido" });
   }
 
   try {
+    const supabase = getSupabase();
+
     const visitsResult = await supabase
       .from("visits")
       .select("*", { count: "exact", head: true });
