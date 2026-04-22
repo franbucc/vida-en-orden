@@ -18,6 +18,8 @@ import MetaPageView from "./components/MetaPageView";
 import RecentPurchasesToast from "./components/RecentPurchasesToast";
 import Admin from "./pages/Admin";
 import RouteTracker from "./components/RouteTracker";
+import EbooksHome from "./pages/EbooksHome";
+import EbookDetail from "./pages/EbookDetail";
 
 
 function Home() {
@@ -49,6 +51,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/gracias" element={<Gracias />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/ebooks" element={<EbooksHome />} />
+<Route path="/ebooks/:slug" element={<EbookDetail />} />
       </Routes>
     </BrowserRouter>
   );

@@ -5,7 +5,8 @@ type CheckoutSource =
   | "hero"
   | "benefits"
   | "offer_section"
-  | "anywhere";
+  | "anywhere"
+  | "ebook_detail";
 
 declare global {
   interface Window {
