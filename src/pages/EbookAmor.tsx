@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { startCheckout } from "../lib/checkout";
 
+declare global {
+  interface Window {
+    fbq?: (...args: unknown[]) => void;
+  }
+}
+
 const images = [
   "/amor-imagen-2.webp",
   "/amor-imagen-3.webp",
@@ -15,6 +21,16 @@ const images = [
 
 function EbookAmor() {
   const [timeLeft, setTimeLeft] = useState(15 * 60);
+
+  useEffect(() => {
+    window.fbq?.("track", "ViewContent", {
+      content_ids: ["ebook-amor-propio"],
+      content_name: "Ebook Amor Propio",
+      content_type: "product",
+      currency: "ARS",
+      value: 14900,
+    });
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -38,7 +54,7 @@ function EbookAmor() {
 
   return (
     <section className="min-h-screen bg-white font-['Montserrat',sans-serif]">
-      <img src="/amor-imagen-1.webp" alt="" className="w-full block" />
+      <img src="/amor-imagen-1.webp" alt="" className="block w-full" />
 
       {/* HERO */}
       <div className="mx-auto max-w-[1200px] px-5 py-14 md:px-8 lg:px-12">
@@ -78,14 +94,12 @@ function EbookAmor() {
       {/* CONTENIDO FULLSCREEN */}
       <div className="w-full">
         {images.map((image, index) => (
-          <>
-            <section key={index} className="w-full">
-              <img
-                src={image}
-                alt={`Amor imagen ${index + 1}`}
-                className="w-full h-auto block"
-              />
-            </section>
+          <section key={index} className="w-full">
+            <img
+              src={image}
+              alt={`Amor imagen ${index + 1}`}
+              className="block h-auto w-full"
+            />
 
             {index === 2 && (
               <div className="bg-[#f3f3f1] px-5 py-8 md:px-8">
@@ -104,8 +118,8 @@ function EbookAmor() {
                     </p>
 
                     <h2 className="mt-3 text-[2rem] leading-[1.15] tracking-[-0.04em] text-[#0f1728] md:text-[2.6rem]">
-                      Mi Psicóloga Me Dijo: Cómo Recuperar tu Amor Propio y Dejar
-                      de Depender de los Demás
+                      Mi Psicóloga Me Dijo: Cómo Recuperar tu Amor Propio y
+                      Dejar de Depender de los Demás
                     </h2>
 
                     <div className="mt-5 flex flex-wrap items-center gap-3">
@@ -178,7 +192,7 @@ function EbookAmor() {
                 </div>
               </div>
             )}
-          </>
+          </section>
         ))}
       </div>
 

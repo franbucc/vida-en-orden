@@ -1,5 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+
+declare global {
+  interface Window {
+    fbq?: (...args: unknown[]) => void;
+  }
+}
 
 export default function Gracias() {
   const [params] = useSearchParams();
@@ -8,14 +14,21 @@ export default function Gracias() {
   const [loading, setLoading] = useState(true);
   const [paymentData, setPaymentData] = useState<any>(null);
 
+  // Evita disparar Purchase más de una vez
+  const purchaseTracked = useRef(false);
+
   useEffect(() => {
     async function load() {
-      if (!paymentId) return;
+      if (!paymentId) {
+        setLoading(false);
+        return;
+      }
 
       try {
         const res = await fetch(
           `/api/verify-payment?payment_id=${paymentId}`
         );
+
         const data = await res.json();
         setPaymentData(data);
       } catch (error) {
@@ -28,13 +41,44 @@ export default function Gracias() {
     load();
   }, [paymentId]);
 
+  // Evento Purchase del Pixel
+  useEffect(() => {
+    if (
+      paymentData?.approved &&
+      paymentData?.product_id &&
+      !purchaseTracked.current &&
+      typeof window.fbq === "function"
+    ) {
+      const value =
+        Number(paymentData.amount) ||
+        Number(paymentData.transaction_amount) ||
+        0;
+
+      window.fbq("track", "Purchase", {
+        content_ids: [paymentData.product_id],
+        content_name: paymentData.product_name || paymentData.product_id,
+        content_type: "product",
+        currency: "ARS",
+        value,
+        num_items: 1,
+      });
+
+      purchaseTracked.current = true;
+      console.log("Pixel Purchase enviado");
+    }
+  }, [paymentData]);
+
   if (loading) {
-    return <div className="p-10 text-center">Verificando pago...</div>;
+    return (
+      <div className="p-10 text-center text-lg">
+        Verificando pago...
+      </div>
+    );
   }
 
   if (!paymentData?.approved) {
     return (
-      <div className="p-10 text-center text-red-500">
+      <div className="p-10 text-center text-red-500 text-lg font-semibold">
         Pago no aprobado.
       </div>
     );
@@ -42,7 +86,7 @@ export default function Gracias() {
 
   return (
     <section className="min-h-screen bg-[#f5f5f7] px-6 py-14">
-      <div className="mx-auto max-w-[900px] rounded-[30px] bg-white p-8 shadow-xl text-center">
+      <div className="mx-auto max-w-[900px] rounded-[30px] bg-white p-8 text-center shadow-xl">
         <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#18bf74]">
           Pago confirmado
         </p>
@@ -59,7 +103,7 @@ export default function Gracias() {
           {paymentData.product_id === "vida-en-orden" && (
             <a
               href={`/api/download-file?payment_id=${paymentId}&file=main`}
-              className="rounded-[18px] bg-[#18bf74] px-8 py-5 font-bold text-white"
+              className="rounded-[18px] bg-[#18bf74] px-8 py-5 font-bold text-white transition hover:opacity-90"
             >
               Descargar Vida en Orden
             </a>
@@ -69,14 +113,14 @@ export default function Gracias() {
             <>
               <a
                 href={`/api/download-file?payment_id=${paymentId}&file=main`}
-                className="rounded-[18px] bg-[#18bf74] px-8 py-5 font-bold text-white"
+                className="rounded-[18px] bg-[#18bf74] px-8 py-5 font-bold text-white transition hover:opacity-90"
               >
                 Descargar Ebook PDF
               </a>
 
               <a
                 href={`/api/download-file?payment_id=${paymentId}&file=bonus`}
-                className="rounded-[18px] bg-[#0f1728] px-8 py-5 font-bold text-white"
+                className="rounded-[18px] bg-[#0f1728] px-8 py-5 font-bold text-white transition hover:opacity-90"
               >
                 Descargar Bonus ZIP
               </a>

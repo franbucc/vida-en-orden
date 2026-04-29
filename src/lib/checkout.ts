@@ -17,6 +17,7 @@ declare global {
 
 function trackInitiateCheckout(productId: string, source: CheckoutSource) {
   const product = PRODUCTS[productId];
+
   if (!product || typeof window.fbq !== "function") return;
 
   window.fbq("track", "InitiateCheckout", {
@@ -28,6 +29,8 @@ function trackInitiateCheckout(productId: string, source: CheckoutSource) {
     num_items: 1,
     source,
   });
+
+  console.log("Pixel InitiateCheckout enviado:", product.title);
 }
 
 export async function startCheckout(

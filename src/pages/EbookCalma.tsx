@@ -20,6 +20,16 @@ function EbookCalma() {
   const [timeLeft, setTimeLeft] = useState(15 * 60);
 
   useEffect(() => {
+    window.fbq?.("track", "ViewContent", {
+      content_ids: ["ebook-calma"],
+      content_name: "Ebook Calma Interior",
+      content_type: "product",
+      currency: "ARS",
+      value: 14900,
+    });
+  }, []);
+
+  useEffect(() => {
     const interval = window.setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
