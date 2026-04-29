@@ -1,7 +1,7 @@
 import { FaWhatsapp } from "react-icons/fa";
 
 function WhatsAppFloat() {
-  const phone = "5491158781815";
+  const phone = "5491124716725";
   const message =
     "Hola! Quiero más información sobre la plantilla Vida en Orden.";
 
