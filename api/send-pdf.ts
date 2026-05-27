@@ -76,15 +76,26 @@ export default async function handler(req: any, res: any) {
     }
 
     if (productId === "ebook-amor-propio") {
-      subject = "Tu Ebook Amor Propio";
-      title = "Ebook Amor Propio";
+  subject = "Tu Ebook + Bonus Amor Propio";
+  title = "Ebook + Bonus Amor Propio";
 
-      attachments.push({
-        filename: "amor-propio.pdf",
-        path: path.join(process.cwd(), "files", "amor-propio.pdf"),
-        contentType: "application/pdf",
-      });
-    }
+  attachments.push({
+    filename: "ebookybonus-amor-propio.zip",
+    path: path.join(process.cwd(), "files", "ebookybonus-amor-propio.zip"),
+    contentType: "application/zip",
+  });
+}
+
+    if (productId === "ebook-abraza") {
+  subject = "Tu Ebook + Bonus Abraza";
+  title = "Ebook + Bonus Abraza";
+
+  attachments.push({
+    filename: "ebookybonus-abraza.zip",
+    path: path.join(process.cwd(), "files", "ebookybonus-abraza.zip"),
+    contentType: "application/zip",
+  });
+}
 
     if (!subject || attachments.length === 0) {
       return res.status(404).json({ error: "Producto no encontrado" });
