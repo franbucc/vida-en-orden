@@ -24,6 +24,13 @@ const PRODUCTS = {
     price: 14900,
     currency: "ARS",
   },
+  "ebook-abraza": {
+  id: "ebook-abraza",
+  title: "Ebook Abraza a tu Niña Interior",
+  description: "Ebook + bonus para sanar y reconectar con tu niña interior",
+  price: 14900,
+  currency: "ARS",
+},
 } as const;
 
 export default async function handler(req: any, res: any) {

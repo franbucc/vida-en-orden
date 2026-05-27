@@ -21,6 +21,7 @@ import RouteTracker from "./components/RouteTracker";
 import EbooksHome from "./pages/EbooksHome";
 import EbookCalma from "./pages/EbookCalma";
 import EbookAmor from "./pages/EbookAmor";
+import EbookAbraza from "./pages/EbookAbraza";
 
 
 
@@ -56,6 +57,7 @@ function App() {
         <Route path="/ebooks" element={<EbooksHome />} />
 <Route path="/ebooks/ebook-calma" element={<EbookCalma />} />
 <Route path="/ebooks/ebook-amor-propio" element={<EbookAmor />} />
+<Route path="/ebooks/ebook-abraza" element={<EbookAbraza />} />
       </Routes>
     </BrowserRouter>
   );

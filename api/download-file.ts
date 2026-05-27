@@ -50,6 +50,14 @@ export default async function handler(req: any, res: any) {
           : "como-dejar-de-pensar.pdf";
     }
 
+    if (productId === "ebook-amor-propio") {
+      fileName = "ebookybonus-amor-propio.zip";
+    }
+
+    if (productId === "ebook-abraza") {
+  fileName = "ebookybonus-abraza.zip";
+}
+
     if (!fileName) {
       return res.status(404).json({ error: "Archivo no encontrado" });
     }

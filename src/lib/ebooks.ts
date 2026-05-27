@@ -52,6 +52,26 @@ export const EBOOKS: Ebook[] = [
       "Enfoque práctico y cercano",
     ],
   },
+  {
+  id: "ebook-abraza",
+  productId: "ebook-abraza",
+  slug: "ebook-abraza",
+  title: "Abraza a tu niña interior",
+  shortDescription:
+    "Una guía para sanar heridas emocionales y volver a elegirte desde el amor propio.",
+  longDescription:
+    "Un ebook pensado para reconectar con tu historia, abrazar tu niña interior y empezar a sanar desde una mirada más amorosa, consciente y compasiva.",
+  price: 14900,
+  oldPrice: 31000,
+  currency: "ARS",
+  cover: "/abraza-6.webp",
+  fileName: "abraza-a-tu-nina-interior.pdf",
+  benefits: [
+    "Ejercicios para reconectar con tu historia",
+    "Herramientas para trabajar heridas emocionales",
+    "Contenido claro, sensible y fácil de aplicar",
+  ],
+}
 ];
 
 export function getEbookBySlug(slug: string) {

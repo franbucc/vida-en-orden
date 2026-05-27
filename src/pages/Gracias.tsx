@@ -171,9 +171,20 @@ useEffect(() => {
     href={`/api/download-file?payment_id=${paymentId}&file=main`}
     className="rounded-[18px] bg-[#18bf74] px-8 py-5 font-bold text-white transition hover:opacity-90"
   >
-    Descargar Ebook Amor Propio
+    Descargar Ebook + Bonus Amor Propio
   </a>
 )}
+
+{paymentData.product_id === "ebook-abraza" && (
+  <a
+    href={`/api/download-file?payment_id=${paymentId}&file=main`}
+    className="rounded-[18px] bg-[#18bf74] px-8 py-5 font-bold text-white transition hover:opacity-90"
+  >
+    Descargar Ebook + Bonus Abraza
+  </a>
+)}
+
+
         </div>
 
         {/* WHATSAPP SOPORTE */}

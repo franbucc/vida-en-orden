@@ -32,6 +32,6 @@ export const PRODUCTS: Record<string, DigitalProduct> = {
     description: "Un recorrido para fortalecer tu autoestima y bienestar",
     price: 14900,
     currency: "ARS",
-    fileName: "ebook-amor-propio.pdf",
+    fileName: "ebookybonus-amor-propio.zip",
   },
 };
