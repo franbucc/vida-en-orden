@@ -22,7 +22,7 @@ import EbooksHome from "./pages/EbooksHome";
 import EbookCalma from "./pages/EbookCalma";
 import EbookAmor from "./pages/EbookAmor";
 import EbookAbraza from "./pages/EbookAbraza";
-
+import ScrollToTop from "./components/ScrollToTop";
 
 
 function Home() {
@@ -48,6 +48,7 @@ function Home() {
 function App() {
   return (
     <BrowserRouter>
+    <ScrollToTop />
     <MetaPageView />
     <RouteTracker />
       <Routes>
