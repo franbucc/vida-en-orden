@@ -4,19 +4,22 @@ const PRODUCT_LINKS = {
   "vida-en-orden": {
     subject: "Tu plantilla Vida en Orden",
     title: "Vida en Orden",
-    downloadUrl: "https://drive.google.com/drive/folders/1hCAmhvjca-YHOEV1ISkutSQu_VjxGsV5?usp=sharing",
+    downloadUrl:
+      "https://drive.google.com/drive/folders/1hCAmhvjca-YHOEV1ISkutSQu_VjxGsV5?usp=sharing",
   },
 
   "ebook-calma": {
     subject: "Tu Ebook Calma Interior",
     title: "Ebook Calma Interior",
-    downloadUrl: "https://drive.google.com/drive/folders/1gB8KLjIK03rqvFpFBMmXJ616--0X6M2K?usp=sharing",
+    downloadUrl:
+      "https://drive.google.com/drive/folders/1gB8KLjIK03rqvFpFBMmXJ616--0X6M2K?usp=sharing",
   },
 
   "ebook-amor-propio": {
     subject: "Tu Ebook + Bonus Amor Propio",
     title: "Ebook + Bonus Amor Propio",
-    downloadUrl: "https://drive.google.com/drive/folders/1fMelokxwMGAkqMfqI1OtyKe4RP11HJ31?usp=sharing",
+    downloadUrl:
+      "https://drive.google.com/drive/folders/1fMelokxwMGAkqMfqI1OtyKe4RP11HJ31?usp=sharing",
   },
 
   "ebook-abraza": {
@@ -26,6 +29,171 @@ const PRODUCT_LINKS = {
       "https://drive.google.com/drive/folders/1sVUdb6WVNFxGa_MbS-6cASHyftF5Yd94?usp=sharing",
   },
 } as const;
+
+type ProductId = keyof typeof PRODUCT_LINKS;
+type ProductEmailData = (typeof PRODUCT_LINKS)[ProductId];
+
+function getEmailHtml(productId: ProductId, product: ProductEmailData) {
+  if (productId === "vida-en-orden") {
+    return `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111827; max-width: 620px; margin: 0 auto;">
+        <h2 style="font-size: 24px; margin-bottom: 16px;">
+          Tu plantilla ya está disponible para descargar.
+        </h2>
+
+        <p style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.04em;">
+          Accedé desde aquí:
+        </p>
+
+        <div style="background: #f6f7f9; border: 1px solid #e5e7eb; border-radius: 14px; padding: 18px; margin: 24px 0;">
+          <p style="margin: 0 0 8px;">
+            <strong>Plantilla de finanzas personales</strong>
+          </p>
+
+          <p style="margin: 0 0 18px; color: #4b5563;">
+            PLANTILLA PRO FINAL.pdf
+          </p>
+
+          <a 
+            href="${product.downloadUrl}"
+            target="_blank"
+            style="
+              background: #18bf74;
+              color: #ffffff;
+              padding: 14px 24px;
+              border-radius: 12px;
+              text-decoration: none;
+              font-weight: bold;
+              display: inline-block;
+            "
+          >
+            Descargar plantilla
+          </a>
+        </div>
+
+        <p>
+          En ese archivo encontrarás un PDF con el instructivo paso a paso de cómo utilizar la plantilla.
+          Recordá que para acceder a ella, en la primera página debés clickear el botón que dice
+          <strong>OBTENER PLANTILLA</strong>.
+        </p>
+
+        <p style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 12px; padding: 14px;">
+          <strong>ES MUY IMPORTANTE:</strong>
+          una vez que le des click a <strong>crear copia</strong>, guardes ese link único.
+          Ese enlace lo tendrás solo vos y guardará las configuraciones que vayas haciendo.
+        </p>
+
+        <p>
+          <strong>IMPORTANTE:</strong><br />
+          Si tenés algún problema con la descarga, respondé a este correo y te ayudamos.
+        </p>
+
+        <p>
+          También te adjuntamos nuestro número de WhatsApp:
+          <br />
+          <a 
+            href="https://wa.me/541124716725"
+            target="_blank"
+            style="color: #18bf74; font-weight: bold;"
+          >
+            11 2471-6725
+          </a>
+        </p>
+
+        <p>
+          <strong>Recomendación:</strong><br />
+          Guardá el archivo en un lugar seguro para poder usarlo cuando lo necesites.
+        </p>
+
+        <p style="margin-top: 28px;">
+          Gracias por confiar en nosotros.
+        </p>
+
+        <p>
+          — <strong>Equipo Vida en Orden</strong>
+        </p>
+      </div>
+    `;
+  }
+
+  return `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111827; max-width: 620px; margin: 0 auto;">
+      <h2 style="font-size: 24px; margin-bottom: 16px;">
+        Gracias por tu compra 🙌
+      </h2>
+
+      <p>
+        Ya podés acceder a <strong>“${product.title}”</strong> junto con los <strong>4 libros digitales de regalo</strong>.
+      </p>
+
+      <p>
+        Descargá todo desde este enlace:
+      </p>
+
+      <p style="margin: 28px 0;">
+        <a 
+          href="${product.downloadUrl}"
+          target="_blank"
+          style="
+            background: #18bf74;
+            color: #ffffff;
+            padding: 14px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+          "
+        >
+          Acceder a mi material
+        </a>
+      </p>
+
+      <p>
+        Si el botón no funciona, copiá y pegá este enlace en tu navegador:
+      </p>
+
+      <p>
+        👉 
+        <a 
+          href="${product.downloadUrl}"
+          target="_blank"
+          style="color: #18bf74;"
+        >
+          ${product.downloadUrl}
+        </a>
+      </p>
+
+      <p>
+        El acceso es inmediato y podés guardarlo en tu celular, tablet o computadora.
+      </p>
+
+      <p>
+        Si tenés cualquier inconveniente con la descarga, respondé este mail y te ayudamos.
+      </p>
+
+      <p>
+        También te dejamos a disposición nuestro WhatsApp directo:
+        <br />
+        <a 
+          href="https://wa.me/541124716725"
+          target="_blank"
+          style="color: #18bf74; font-weight: bold;"
+        >
+          11 2471-6725
+        </a>
+      </p>
+
+      <p style="margin-top: 28px;">
+        Gracias.
+      </p>
+
+      <p>
+        Atte,<br />
+        <strong>El equipo de Vida En Orden ❤️❤️</strong>
+      </p>
+    </div>
+  `;
+}
 
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
@@ -70,7 +238,7 @@ export default async function handler(req: any, res: any) {
     const externalReference = payment.external_reference || "";
     const [productId = "vida-en-orden"] = externalReference.split("|");
 
-    const product = PRODUCT_LINKS[productId as keyof typeof PRODUCT_LINKS];
+    const product = PRODUCT_LINKS[productId as ProductId];
 
     if (!product) {
       return res.status(404).json({ error: "Producto no encontrado" });
@@ -90,83 +258,7 @@ export default async function handler(req: any, res: any) {
       from: process.env.SMTP_FROM,
       to: email,
       subject: product.subject,
-      html: `
-        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111827; max-width: 620px; margin: 0 auto;">
-          <h2 style="font-size: 24px; margin-bottom: 16px;">
-            Gracias por tu compra 🙌
-          </h2>
-
-          <p>
-            Ya podés acceder a <strong>“${product.title}”</strong> junto con los <strong>4 libros digitales de regalo</strong>.
-          </p>
-
-          <p>
-            Descargá todo desde este enlace:
-          </p>
-
-          <p style="margin: 28px 0;">
-            <a 
-              href="${product.downloadUrl}"
-              target="_blank"
-              style="
-                background: #18bf74;
-                color: #ffffff;
-                padding: 14px 24px;
-                border-radius: 12px;
-                text-decoration: none;
-                font-weight: bold;
-                display: inline-block;
-              "
-            >
-              Acceder a mi material
-            </a>
-          </p>
-
-          <p>
-            Si el botón no funciona, copiá y pegá este enlace en tu navegador:
-          </p>
-
-          <p>
-            👉 
-            <a 
-              href="${product.downloadUrl}"
-              target="_blank"
-              style="color: #18bf74;"
-            >
-              ${product.downloadUrl}
-            </a>
-          </p>
-
-          <p>
-            El acceso es inmediato y podés guardarlo en tu celular, tablet o computadora.
-          </p>
-
-          <p>
-            Si tenés cualquier inconveniente con la descarga, respondé este mail y te ayudamos.
-          </p>
-
-          <p>
-            También te dejamos a disposición nuestro WhatsApp directo:
-            <br />
-            <a 
-              href="https://wa.me/541124716725"
-              target="_blank"
-              style="color: #18bf74; font-weight: bold;"
-            >
-              11 2471-6725
-            </a>
-          </p>
-
-          <p style="margin-top: 28px;">
-            Gracias.
-          </p>
-
-          <p>
-            Atte,<br />
-            <strong>El equipo de Vida En Orden ❤️❤️</strong>
-          </p>
-        </div>
-      `,
+      html: getEmailHtml(productId as ProductId, product),
     });
 
     return res.status(200).json({
