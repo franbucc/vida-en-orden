@@ -16,6 +16,7 @@ export default function Gracias() {
 
   // Evita disparar Purchase más de una vez
   const purchaseTracked = useRef(false);
+  const emailSent = useRef(false);
 
   useEffect(() => {
     async function load() {
@@ -68,6 +69,39 @@ export default function Gracias() {
     }
   }, [paymentData]);
 
+  // Enviar email automático con los archivos
+useEffect(() => {
+  async function sendPdfEmail() {
+    if (!paymentData?.approved || !paymentId || emailSent.current) return;
+
+    try {
+      const res = await fetch("/api/send-pdf", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          paymentId,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.error("Error enviando email:", data);
+        return;
+      }
+
+      emailSent.current = true;
+      console.log("Email enviado correctamente");
+    } catch (error) {
+      console.error("Error enviando email:", error);
+    }
+  }
+
+  sendPdfEmail();
+}, [paymentData, paymentId]);
+
   if (loading) {
     return (
       <div className="p-10 text-center text-lg">
@@ -96,8 +130,13 @@ export default function Gracias() {
         </h1>
 
         <p className="mt-5 text-lg text-[#667085]">
-          Tu pago fue aprobado correctamente.
-        </p>
+  Tu pago fue aprobado correctamente.
+</p>
+
+<p className="mt-3 text-[0.95rem] text-[#98a2b3]">
+  También te enviamos el acceso a tu email. Si no lo encontrás,
+  revisá la carpeta de <span className="font-medium text-[#0f1728]">spam o promociones</span>.
+</p>
 
         <div className="mt-10 flex flex-col items-center gap-4">
           {paymentData.product_id === "vida-en-orden" && (
@@ -126,6 +165,15 @@ export default function Gracias() {
               </a>
             </>
           )}
+
+          {paymentData.product_id === "ebook-amor-propio" && (
+  <a
+    href={`/api/download-file?payment_id=${paymentId}&file=main`}
+    className="rounded-[18px] bg-[#18bf74] px-8 py-5 font-bold text-white transition hover:opacity-90"
+  >
+    Descargar Ebook Amor Propio
+  </a>
+)}
         </div>
 
         {/* WHATSAPP SOPORTE */}

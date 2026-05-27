@@ -1,11 +1,18 @@
 import { FaWhatsapp } from "react-icons/fa";
 
-function WhatsAppFloat() {
+type WhatsAppFloatProps = {
+  message?: string;
+};
+
+function WhatsAppFloat({ message }: WhatsAppFloatProps) {
   const phone = "5491124716725";
-  const message =
+
+  const defaultMessage =
     "Hola! Quiero más información sobre la plantilla Vida en Orden.";
 
-  const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  const finalMessage = message || defaultMessage;
+
+  const url = `https://wa.me/${phone}?text=${encodeURIComponent(finalMessage)}`;
 
   return (
     <a

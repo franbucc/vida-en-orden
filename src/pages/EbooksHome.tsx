@@ -1,5 +1,6 @@
 import EbookCard from "../components/EbookCard";
 import { EBOOKS } from "../lib/ebooks";
+import WhatsAppFloat from "../components/WhatsAppFloat";
 
 function EbooksHome() {
   return (
@@ -39,8 +40,10 @@ function EbooksHome() {
           </div>
         </div>
       </div>
+<WhatsAppFloat message="Hola! Quiero más información sobre los ebooks disponibles." />
     </section>
   );
 }
+
 
 export default EbooksHome;

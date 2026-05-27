@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { startCheckout } from "../lib/checkout";
+import WhatsAppFloat from "../components/WhatsAppFloat";
 
 const imagesTop = [
   "/calma-imagen-2.webp",
@@ -228,6 +229,7 @@ function EbookCalma() {
           Comprar ahora
         </button>
       </div>
+<WhatsAppFloat message="Hola! Quiero más información sobre el Ebook Calma Interior." />
     </section>
   );
 }

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { startCheckout } from "../lib/checkout";
+import WhatsAppFloat from "../components/WhatsAppFloat";
+
 
 declare global {
   interface Window {
@@ -214,6 +216,7 @@ function EbookAmor() {
           Comprar ahora
         </button>
       </div>
+      <WhatsAppFloat message="Hola! Quiero más información sobre el Ebook Amor Propio." />
     </section>
   );
 }

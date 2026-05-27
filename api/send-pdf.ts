@@ -8,11 +8,11 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    const { paymentId, email } = req.body || {};
+    const { paymentId } = req.body || {};
     const accessToken = process.env.MP_ACCESS_TOKEN;
 
-    if (!paymentId || !email) {
-      return res.status(400).json({ error: "Faltan datos" });
+    if (!paymentId) {
+      return res.status(400).json({ error: "Falta paymentId" });
     }
 
     if (!accessToken) {
@@ -34,6 +34,70 @@ export default async function handler(req: any, res: any) {
       return res.status(403).json({ error: "Pago no aprobado" });
     }
 
+    const email = payment.payer?.email;
+
+    if (!email) {
+      return res.status(400).json({ error: "No se encontró email del comprador" });
+    }
+
+    const externalReference = payment.external_reference || "";
+    const [productId = "vida-en-orden"] = externalReference.split("|");
+
+    let subject = "";
+    let title = "";
+    const attachments: any[] = [];
+
+    if (productId === "vida-en-orden") {
+      subject = "Tu plantilla Vida en Orden";
+      title = "Vida en Orden";
+
+      attachments.push({
+        filename: "vida-en-orden.pdf",
+        path: path.join(process.cwd(), "files", "vida-en-orden.pdf"),
+        contentType: "application/pdf",
+      });
+    }
+
+    if (productId === "ebook-calma") {
+      subject = "Tu Ebook Calma Interior";
+      title = "Ebook Calma Interior";
+
+      attachments.push({
+        filename: "como-dejar-de-pensar.pdf",
+        path: path.join(process.cwd(), "files", "como-dejar-de-pensar.pdf"),
+        contentType: "application/pdf",
+      });
+
+      attachments.push({
+        filename: "bonus-pensar.zip",
+        path: path.join(process.cwd(), "files", "bonus-pensar.zip"),
+        contentType: "application/zip",
+      });
+    }
+
+    if (productId === "ebook-amor-propio") {
+      subject = "Tu Ebook Amor Propio";
+      title = "Ebook Amor Propio";
+
+      attachments.push({
+        filename: "amor-propio.pdf",
+        path: path.join(process.cwd(), "files", "amor-propio.pdf"),
+        contentType: "application/pdf",
+      });
+    }
+
+    if (!subject || attachments.length === 0) {
+      return res.status(404).json({ error: "Producto no encontrado" });
+    }
+
+    for (const file of attachments) {
+      if (!fs.existsSync(file.path)) {
+        return res.status(404).json({
+          error: `No existe el archivo: ${file.filename}`,
+        });
+      }
+    }
+
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT || 587),
@@ -44,36 +108,28 @@ export default async function handler(req: any, res: any) {
       },
     });
 
-    const filePath = path.join(process.cwd(), "files", "vida-en-orden.pdf");
-    const fileBuffer = fs.readFileSync(filePath);
-
     await transporter.sendMail({
       from: process.env.SMTP_FROM,
       to: email,
-      subject: "Tu plantilla Vida en Orden",
+      subject,
       html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.6;">
           <h2>¡Gracias por tu compra!</h2>
-          <p>Te adjuntamos tu plantilla digital <strong>Vida en Orden</strong>.</p>
-          <p>También podés descargarla desde la página de gracias mientras tu sesión siga abierta.</p>
+          <p>Te enviamos adjunto tu producto digital: <strong>${title}</strong>.</p>
+          <p>También podés descargarlo desde la página de gracias.</p>
+          <p>Ante cualquier inconveniente, respondé este email o escribinos por WhatsApp.</p>
         </div>
       `,
-      attachments: [
-        {
-          filename: "vida-en-orden.pdf",
-          content: fileBuffer,
-          contentType: "application/pdf",
-        },
-      ],
+      attachments,
     });
 
     return res.status(200).json({
       ok: true,
-      message: "PDF enviado correctamente",
+      message: "Email enviado correctamente",
     });
   } catch (error: any) {
     return res.status(500).json({
-      error: "No se pudo enviar el PDF",
+      error: "No se pudo enviar el email",
       detail: error?.message,
     });
   }
