@@ -26,7 +26,7 @@ export const EBOOKS: Ebook[] = [
     oldPrice: 18900,
     currency: "ARS",
     cover: "/ebook-calma.png",
-    fileName: "ebook-calma.pdf",
+    fileName: "como-dejar-de-pensar.pdf",
     benefits: [
       "Ejercicios simples para aplicar todos los días",
       "Herramientas para bajar el estrés",
@@ -45,7 +45,7 @@ export const EBOOKS: Ebook[] = [
     oldPrice: 21900,
     currency: "ARS",
     cover: "/ebook-amor-propio.png",
-    fileName: "ebook-amor-propio.pdf",
+    fileName: "ebookybonus-amor-propio.pdf",
     benefits: [
       "Actividades de reflexión y autoconocimiento",
       "Ejercicios para fortalecer la autoestima",
@@ -65,7 +65,7 @@ export const EBOOKS: Ebook[] = [
   oldPrice: 31000,
   currency: "ARS",
   cover: "/abraza-6.webp",
-  fileName: "abraza-a-tu-nina-interior.pdf",
+  fileName: "ebookybonus-abraza.pdf",
   benefits: [
     "Ejercicios para reconectar con tu historia",
     "Herramientas para trabajar heridas emocionales",

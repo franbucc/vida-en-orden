@@ -7,6 +7,20 @@ declare global {
   }
 }
 
+const DRIVE_LINKS: Record<string, string> = {
+  "vida-en-orden":
+    "https://drive.google.com/drive/folders/1hCAmhvjca-YHOEV1ISkutSQu_VjxGsV5?usp=sharing",
+
+  "ebook-calma":
+    "https://drive.google.com/drive/folders/1gB8KLjIK03rqvFpFBMmXJ616--0X6M2K?usp=sharing",
+
+  "ebook-amor-propio":
+    "https://drive.google.com/drive/folders/1fMelokxwMGAkqMfqI1OtyKe4RP11HJ31?usp=sharing",
+
+  "ebook-abraza":
+    "https://drive.google.com/drive/folders/1sVUdb6WVNFxGa_MbS-6cASHyftF5Yd94?usp=sharing",
+};
+
 export default function Gracias() {
   const [params] = useSearchParams();
   const paymentId = params.get("payment_id");
@@ -26,11 +40,9 @@ export default function Gracias() {
       }
 
       try {
-        const res = await fetch(
-          `/api/verify-payment?payment_id=${paymentId}`
-        );
-
+        const res = await fetch(`/api/verify-payment?payment_id=${paymentId}`);
         const data = await res.json();
+
         setPaymentData(data);
       } catch (error) {
         console.error(error);
@@ -53,11 +65,15 @@ export default function Gracias() {
       const value =
         Number(paymentData.amount) ||
         Number(paymentData.transaction_amount) ||
+        Number(paymentData.value) ||
         0;
 
       window.fbq("track", "Purchase", {
         content_ids: [paymentData.product_id],
-        content_name: paymentData.product_name || paymentData.product_id,
+        content_name:
+          paymentData.product_name ||
+          paymentData.product_title ||
+          paymentData.product_id,
         content_type: "product",
         currency: "ARS",
         value,
@@ -70,44 +86,40 @@ export default function Gracias() {
   }, [paymentData]);
 
   // Enviar email automático con los archivos
-useEffect(() => {
-  async function sendPdfEmail() {
-    if (!paymentData?.approved || !paymentId || emailSent.current) return;
+  useEffect(() => {
+    async function sendPdfEmail() {
+      if (!paymentData?.approved || !paymentId || emailSent.current) return;
 
-    try {
-      const res = await fetch("/api/send-pdf", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          paymentId,
-        }),
-      });
+      try {
+        const res = await fetch("/api/send-pdf", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            paymentId,
+          }),
+        });
 
-      const data = await res.json();
+        const data = await res.json();
 
-      if (!res.ok) {
-        console.error("Error enviando email:", data);
-        return;
+        if (!res.ok) {
+          console.error("Error enviando email:", data);
+          return;
+        }
+
+        emailSent.current = true;
+        console.log("Email enviado correctamente");
+      } catch (error) {
+        console.error("Error enviando email:", error);
       }
-
-      emailSent.current = true;
-      console.log("Email enviado correctamente");
-    } catch (error) {
-      console.error("Error enviando email:", error);
     }
-  }
 
-  sendPdfEmail();
-}, [paymentData, paymentId]);
+    sendPdfEmail();
+  }, [paymentData, paymentId]);
 
   if (loading) {
-    return (
-      <div className="p-10 text-center text-lg">
-        Verificando pago...
-      </div>
-    );
+    return <div className="p-10 text-center text-lg">Verificando pago...</div>;
   }
 
   if (!paymentData?.approved) {
@@ -117,6 +129,10 @@ useEffect(() => {
       </div>
     );
   }
+
+  const driveLink = paymentData?.product_id
+    ? DRIVE_LINKS[paymentData.product_id]
+    : "";
 
   return (
     <section className="min-h-screen bg-[#f5f5f7] px-6 py-14">
@@ -130,68 +146,36 @@ useEffect(() => {
         </h1>
 
         <p className="mt-5 text-lg text-[#667085]">
-  Tu pago fue aprobado correctamente.
-</p>
+          Tu pago fue aprobado correctamente.
+        </p>
 
-<p className="mt-3 text-[0.95rem] text-[#98a2b3]">
-  También te enviamos el acceso a tu email. Si no lo encontrás,
-  revisá la carpeta de <span className="font-medium text-[#0f1728]">spam o promociones</span>.
-</p>
+        <p className="mt-3 text-[0.95rem] text-[#98a2b3]">
+          También te enviamos el acceso a tu email. Si no lo encontrás, revisá
+          la carpeta de{" "}
+          <span className="font-medium text-[#0f1728]">
+            spam o promociones
+          </span>
+          .
+        </p>
 
         <div className="mt-10 flex flex-col items-center gap-4">
-          {paymentData.product_id === "vida-en-orden" && (
+          {driveLink && (
             <a
-              href={`/api/download-file?payment_id=${paymentId}&file=main`}
+              href={driveLink}
+              target="_blank"
+              rel="noopener noreferrer"
               className="rounded-[18px] bg-[#18bf74] px-8 py-5 font-bold text-white transition hover:opacity-90"
             >
-              Descargar Vida en Orden
+              Acceder a mi material
             </a>
           )}
-
-          {paymentData.product_id === "ebook-calma" && (
-            <>
-              <a
-                href={`/api/download-file?payment_id=${paymentId}&file=main`}
-                className="rounded-[18px] bg-[#18bf74] px-8 py-5 font-bold text-white transition hover:opacity-90"
-              >
-                Descargar Ebook PDF
-              </a>
-
-              <a
-                href={`/api/download-file?payment_id=${paymentId}&file=bonus`}
-                className="rounded-[18px] bg-[#0f1728] px-8 py-5 font-bold text-white transition hover:opacity-90"
-              >
-                Descargar Bonus ZIP
-              </a>
-            </>
-          )}
-
-          {paymentData.product_id === "ebook-amor-propio" && (
-  <a
-    href={`/api/download-file?payment_id=${paymentId}&file=main`}
-    className="rounded-[18px] bg-[#18bf74] px-8 py-5 font-bold text-white transition hover:opacity-90"
-  >
-    Descargar Ebook + Bonus Amor Propio
-  </a>
-)}
-
-{paymentData.product_id === "ebook-abraza" && (
-  <a
-    href={`/api/download-file?payment_id=${paymentId}&file=main`}
-    className="rounded-[18px] bg-[#18bf74] px-8 py-5 font-bold text-white transition hover:opacity-90"
-  >
-    Descargar Ebook + Bonus Abraza
-  </a>
-)}
-
-
         </div>
 
         {/* WHATSAPP SOPORTE */}
         <div className="mt-12 border-t border-gray-200 pt-8">
           <p className="text-[1rem] text-[#667085]">
-            Ante cualquier imprevisto o inconveniente con tu compra,
-            comunicate con nosotros por WhatsApp.
+            Ante cualquier imprevisto o inconveniente con tu compra, comunicate
+            con nosotros por WhatsApp.
           </p>
 
           <a

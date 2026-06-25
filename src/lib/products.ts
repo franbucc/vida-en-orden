@@ -23,7 +23,7 @@ export const PRODUCTS: Record<string, DigitalProduct> = {
     description: "Guía práctica para bajar el estrés y ordenar tu mente",
     price: 14900,
     currency: "ARS",
-    fileName: "ebook-calma.pdf",
+    fileName: "como-dejar-de-pensar.pdf",
   },
 
   "ebook-amor-propio": {
