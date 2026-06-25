@@ -166,7 +166,7 @@ function getEmailHtml(productId, product) {
           También te adjuntamos nuestro número de WhatsApp:
           <br />
           <a 
-            href="https://wa.me/541124716725"
+            href="https://wa.me/5491165770663"
             target="_blank"
             style="color: #18bf74; font-weight: bold;"
           >
@@ -249,7 +249,7 @@ function getEmailHtml(productId, product) {
         También te dejamos a disposición nuestro WhatsApp directo:
         <br />
         <a 
-          href="https://wa.me/541124716725"
+          href="https://wa.me/5491165770663"
           target="_blank"
           style="color: #18bf74; font-weight: bold;"
         >

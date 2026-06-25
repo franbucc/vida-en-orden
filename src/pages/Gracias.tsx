@@ -179,7 +179,7 @@ export default function Gracias() {
           </p>
 
           <a
-            href="https://wa.me/5491124716725?text=Hola,%20tuve%20un%20inconveniente%20con%20mi%20compra."
+            href="https://wa.me/5491165770663?text=Hola,%20tuve%20un%20inconveniente%20con%20mi%20compra."
             target="_blank"
             rel="noopener noreferrer"
             className="mt-5 inline-flex rounded-[18px] bg-[#25D366] px-8 py-5 font-bold text-white transition hover:opacity-90"
