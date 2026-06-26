@@ -5,7 +5,7 @@ type WhatsAppFloatProps = {
 };
 
 function WhatsAppFloat({ message }: WhatsAppFloatProps) {
-  const phone = "5491165770663";
+  const phone = "5491124716725";
 
   const defaultMessage =
     "Hola! Quiero más información sobre la plantilla Vida en Orden.";
